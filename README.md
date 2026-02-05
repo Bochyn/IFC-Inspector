@@ -30,6 +30,29 @@ Inspecting IFC files typically requires launching Revit, Solibri, or uploading t
 - **Unicode support** - Handles Polish, German, French characters in type names
 - **Custom STEP parser** - No external IFC libraries, pure Rust
 
+## Screenshots
+
+### Dashboard View
+Three-panel layout: Levels, Categories, and Types with instance counts.
+
+<p align="center">
+  <img src="docs/images/1.jpg" alt="Dashboard View" width="800">
+</p>
+
+### Type Detail View
+Property sets with numeric and text values, instance navigation with GlobalId.
+
+<p align="center">
+  <img src="docs/images/2.jpg" alt="Type Detail View" width="800">
+</p>
+
+### Instance Browser
+Browse all instances of a type with key properties: GlobalId, Length, Area, Volume.
+
+<p align="center">
+  <img src="docs/images/3.jpg" alt="Instance Browser" width="800">
+</p>
+
 ## Who Is This For?
 
 | Role | Use Case |
