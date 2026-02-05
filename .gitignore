@@ -1,0 +1,19 @@
+/target
+Cargo.lock
+
+# Debug/test output
+debug.json
+test_output.*
+
+# System files
+*.lnk
+
+# Editor/IDE
+.vscode/
+.idea/
+
+# Binaries
+*.exe
+
+# Large test files
+*.ifc
