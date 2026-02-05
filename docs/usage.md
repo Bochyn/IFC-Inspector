@@ -51,9 +51,9 @@ ifc-inspector model.ifc --csv types.csv --json full.json
 ├─────────┬───────────┬────────────────────────────────────┤
 │ Levels  │ Categories│ Type Name                 Instances│
 │         │           │                                    │
-│ ► All   │ ► Walls   │ Basic Wall 200mm           45 szt.│
-│   +3.0m │   Doors   │ Basic Wall 300mm           23 szt.│
-│   +0.0m │   Windows │ Curtain Wall               12 szt.│
+│ ► All   │ ► Walls   │ Basic Wall 200mm              45│
+│   +3.0m │   Doors   │ Basic Wall 300mm              23│
+│   +0.0m │   Windows │ Curtain Wall                  12│
 │   -3.0m │   Other   │                                    │
 ├─────────┴───────────┴────────────────────────────────────┤
 │ ←→ Category | ↑↓ Type | Enter Details | q Quit           │
@@ -118,7 +118,7 @@ Press Enter in Type Detail to see all instances:
 
 ```
 ┌──────────────────────────────────────────────────────────┐
-│ Instances of: Basic Wall 200mm (45 szt.)                 │
+│ Instances of: Basic Wall 200mm (45)                      │
 ├──────────────────────────────────────────────────────────┤
 │ #   Level      ID      GlobalId          Length   Area   │
 │ 1   Level 0    #234    2Xk9jP...        4500mm   12.6m² │

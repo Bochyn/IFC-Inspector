@@ -254,7 +254,7 @@ fn draw_types(frame: &mut Frame, area: Rect, app: &App) {
             // Get filtered instance count (respects selected_level)
             let filtered_count = app.get_filtered_instance_count(t);
 
-            Row::new(vec![t.name.clone(), format!("{} szt.", filtered_count)]).style(style)
+            Row::new(vec![t.name.clone(), format!("{}", filtered_count)]).style(style)
         })
         .collect();
 
@@ -456,7 +456,7 @@ pub fn draw_instance_browser(frame: &mut Frame, app: &App) {
 
     // Header
     let header = Paragraph::new(format!(
-        " Instances of: {} ({} szt.) ",
+        " Instances of: {} ({}) ",
         element_type.name,
         element_type.instance_ids.len()
     ))
