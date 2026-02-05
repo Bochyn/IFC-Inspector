@@ -240,7 +240,7 @@ MIT License - see [LICENSE](LICENSE) for details.
 **Mateusz Bochynski**
 Architect | Developer | Creative Technologist
 
-| [GitHub](https://github.com/Bochyn) | [LinkedIn](www.linkedin.com/in/mateusz-bochyński-711153234)
+| [GitHub](https://github.com/Bochyn) | [LinkedIn](https://www.linkedin.com/in/mateusz-bochyński-711153234)
 
 ---
 
