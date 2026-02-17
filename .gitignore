@@ -17,3 +17,8 @@ test_output.*
 
 # Large test files
 *.ifc
+
+# Claude-to-Claude notes
+changelog/
+docs.config.md
+.claude/

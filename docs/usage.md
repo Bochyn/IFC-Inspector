@@ -60,9 +60,37 @@ ifc-inspector model.ifc --csv types.csv --json full.json
 └──────────────────────────────────────────────────────────┘
 ```
 
+### Keyboard Shortcuts
+
+#### Dashboard View
+
+| Key | Action |
+|-----|--------|
+| `←` `→` or `h` `l` | Switch panel (Levels → Categories → Types) |
+| `↑` `↓` or `j` `k` | Navigate within active panel |
+| `Enter` | Open type details (when on Types panel) |
+| `q` | Quit |
+
+#### Type Detail View
+
+| Key | Action |
+|-----|--------|
+| `↑` `↓` | Scroll properties |
+| `←` `→` | Previous/next instance (with wrap-around) |
+| `Enter` | Open instance browser |
+| `Esc` | Back to dashboard |
+
+#### Instance Browser
+
+| Key | Action |
+|-----|--------|
+| `↑` `↓` | Navigate instances |
+| `Esc` or `Enter` | Back to type detail |
+| `q` | Quit |
+
 ### Panel Navigation
 
-The dashboard has three panels. Use arrow keys to switch:
+The dashboard has three panels. Use arrow keys or `h`/`l` to switch:
 
 1. **Levels** (left) - Filter by building storey
    - "All" shows everything
@@ -198,6 +226,13 @@ Full hierarchical data with all properties:
 - Custom scripts and tools
 - Data analysis with Python/pandas
 - Integration with other BIM workflows
+
+## Supported IFC Schemas
+
+- **IFC2X3** — widely used for Revit/ArchiCAD exports
+- **IFC4** — newer standard with extended property support
+
+The parser auto-detects the schema from the file header.
 
 ## Tips and Tricks
 

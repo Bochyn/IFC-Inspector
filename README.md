@@ -3,12 +3,11 @@
 **A blazing-fast terminal UI for exploring IFC files without heavy BIM software.**
 
 <p align="center">
-  <img src="docs/demo.gif" alt="IFC Inspector Demo" width="800">
+  <img src="docs/images/ifc-inspector-portfolio.gif" alt="IFC Inspector Demo" width="800">
 </p>
 
 [![Rust](https://img.shields.io/badge/rust-1.70%2B-orange.svg)](https://www.rust-lang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/Bochyn/ifc-inspector/ci.yml?branch=main)](https://github.com/Bochyn/ifc-inspector/actions)
 
 ## The Problem
 
@@ -144,22 +143,26 @@ ifc-inspector model.ifc --csv types.csv --json data.json
 ```
 ifc-inspector/
 ├── src/
-│   ├── main.rs          # CLI entry point (clap)
-│   ├── lib.rs           # Library exports
-│   ├── error.rs         # Typed errors (thiserror)
+│   ├── main.rs              # CLI entry point (clap)
+│   ├── lib.rs               # Library exports
+│   ├── error.rs             # Typed errors (thiserror)
 │   ├── parser/
-│   │   ├── step.rs      # STEP/ISO-10303 parser
-│   │   └── ifc.rs       # IFC entity extraction
+│   │   ├── mod.rs           # Public API re-exports
+│   │   ├── step.rs          # STEP/ISO-10303 parser
+│   │   └── ifc.rs           # IFC entity extraction
 │   ├── model/
-│   │   ├── project.rs   # IfcProject, Category, Storey
-│   │   ├── element.rs   # Element instances
+│   │   ├── mod.rs           # Public API re-exports
+│   │   ├── project.rs       # IfcProject, Category, Storey
+│   │   ├── element.rs       # Element instances
 │   │   └── element_type.rs  # ElementType with properties
 │   ├── export/
-│   │   ├── csv.rs       # CSV export
-│   │   └── json.rs      # JSON export
+│   │   ├── mod.rs           # Public API re-exports
+│   │   ├── csv.rs           # CSV export
+│   │   └── json.rs          # JSON export
 │   └── ui/
-│       ├── app.rs       # Application state machine
-│       └── dashboard.rs # Ratatui rendering
+│       ├── mod.rs           # Public API re-exports
+│       ├── app.rs           # Application state machine
+│       └── dashboard.rs     # Ratatui rendering
 ```
 
 ### Design Decisions

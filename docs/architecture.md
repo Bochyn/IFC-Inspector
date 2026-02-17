@@ -89,6 +89,8 @@ const PRIORITY_CATEGORIES: &[(&str, &str)] = &[
     ("IFCWINDOW", "Windows"),
     ("IFCFURNISHINGELEMENT", "Furniture"),
     ("IFCFLOWFIXTURE", "Fixtures"),
+    ("IFCSANITARYTERMINAL", "Fixtures"),
+    ("IFCFLOWTERMINAL", "Fixtures"),
 ];
 ```
 
@@ -107,7 +109,8 @@ pub struct IfcProject {
     pub file_path: String,
     pub categories: Vec<Category>,
     pub storeys: Vec<Storey>,
-    pub element_to_storey: HashMap<u64, u64>,  // O(1) lookups
+    pub elements: HashMap<u64, Element>,           // all parsed elements
+    pub element_to_storey: HashMap<u64, u64>,      // O(1) lookups
     pub element_properties: HashMap<u64, HashMap<String, String>>,
     pub instance_global_ids: HashMap<u64, String>,
 }
@@ -163,12 +166,17 @@ pub enum FocusPanel {
 
 pub struct App {
     pub project: IfcProject,
+    pub step_file: Option<StepFile>,
     pub view: View,
     pub focus_panel: FocusPanel,
     pub selected_category: usize,
     pub selected_type: usize,
-    pub selected_level: usize,  // 0 = "All"
-    // ... scroll offsets
+    pub selected_instance: usize,
+    pub selected_level: usize,      // 0 = "All", 1+ = storey index
+    pub types_scroll_offset: usize,
+    pub property_scroll_offset: usize,
+    pub instances_scroll_offset: usize,
+    pub should_quit: bool,
 }
 ```
 

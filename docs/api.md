@@ -8,7 +8,7 @@ Add to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-ifc-inspector = "0.1"
+ifc-inspector = "1.0"
 ```
 
 ## Quick Start
@@ -16,11 +16,13 @@ ifc-inspector = "0.1"
 ```rust
 use ifc_inspector::parser::parse_ifc_file;
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() -> color_eyre::Result<()> {
     let project = parse_ifc_file("model.ifc")?;
 
     println!("Project: {}", project.name);
-    println!("Types: {}", project.total_types());
+    println!("Schema: {}", project.schema);
+    println!("Total types: {}", project.total_types());
+    println!("Total elements: {}", project.total_elements());
 
     Ok(())
 }
@@ -39,6 +41,7 @@ pub struct IfcProject {
     pub file_path: String,
     pub categories: Vec<Category>,
     pub storeys: Vec<Storey>,
+    pub elements: HashMap<u64, Element>,
     pub element_to_storey: HashMap<u64, u64>,
     pub element_properties: HashMap<u64, HashMap<String, String>>,
     pub instance_global_ids: HashMap<u64, String>,
@@ -129,6 +132,39 @@ for category in &project.categories {
         for id in &element_type.instance_ids {
             println!("  Instance: #{}", id);
         }
+    }
+}
+```
+
+### `Element`
+
+Represents an individual element instance (e.g., a specific wall segment).
+
+```rust
+pub struct Element {
+    pub id: u64,
+    pub global_id: String,
+    pub name: String,
+    pub tag: Option<String>,
+    pub type_id: Option<u64>,
+    pub storey_id: Option<u64>,
+    pub properties: HashMap<String, String>,
+}
+```
+
+#### Example
+
+```rust
+// Access elements directly by STEP entity ID
+let element_id: u64 = 12345;
+
+if let Some(element) = project.elements.get(&element_id) {
+    println!("Element: {} ({})", element.name, element.global_id);
+    if let Some(tag) = &element.tag {
+        println!("Tag: {}", tag);
+    }
+    for (key, value) in &element.properties {
+        println!("  {}: {}", key, value);
     }
 }
 ```
@@ -233,6 +269,75 @@ use ifc_inspector::export::export_json;
 
 let project = parse_ifc_file("model.ifc")?;
 export_json(&project, "output.json")?;
+```
+
+## Low-level STEP API
+
+The parser module also exposes low-level STEP/ISO-10303 types for advanced use cases.
+
+### `StepFile`
+
+```rust
+pub struct StepFile {
+    pub entities: HashMap<u64, StepEntity>,
+    pub schema: String,
+}
+```
+
+#### Methods
+
+```rust
+impl StepFile {
+    /// Parse a STEP file from string content
+    pub fn parse(content: &str) -> Result<Self, ParseError>;
+
+    /// Get a single entity by its STEP ID (#123)
+    pub fn get_entity(&self, id: u64) -> Option<&StepEntity>;
+
+    /// Get all entities of a given type (e.g., "IFCWALL")
+    pub fn get_entities_by_type(&self, entity_type: &str) -> Vec<&StepEntity>;
+}
+```
+
+### `StepEntity`
+
+```rust
+pub struct StepEntity {
+    pub id: u64,
+    pub entity_type: String,
+    pub values: Vec<StepValue>,
+}
+```
+
+### `StepValue`
+
+```rust
+pub enum StepValue {
+    String(String),       // 'text'
+    Real(f64),            // 3.14
+    Integer(i64),         // 42
+    Boolean(bool),        // .T. or .F.
+    Enum(String),         // .ELEMENT.
+    Reference(u64),       // #123
+    List(Vec<StepValue>), // (item1,item2)
+    Null,                 // $
+    Derived,              // *
+}
+```
+
+#### Example
+
+```rust
+use ifc_inspector::parser::{StepFile, StepValue};
+
+let content = std::fs::read_to_string("model.ifc")?;
+let step_file = StepFile::parse(&content)?;
+
+// Find all wall entities
+let walls = step_file.get_entities_by_type("IFCWALL");
+for wall in walls {
+    println!("Wall #{}: {:?}", wall.id, wall.values);
+}
 ```
 
 ## Error Types
@@ -364,7 +469,7 @@ Currently, IFC Inspector does not have optional feature flags. All functionality
 ## Memory Usage
 
 Memory usage scales linearly with file size. Approximately:
-- ~2.5x the IFC file size during parsing
+- ~2.5-3x the IFC file size during parsing
 - ~1.5x the IFC file size after parsing (entities + maps)
 
 For very large files (>100MB), consider streaming approaches or processing in chunks.
